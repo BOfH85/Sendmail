@@ -1,0 +1,1 @@
+java -jar C:\Sendmail\Send-MailMessage.jar %message%
