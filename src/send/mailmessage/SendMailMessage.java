@@ -67,12 +67,22 @@ public class SendMailMessage {
         props.put("mail.transport.protocol","smtp");
 
         Session session = Session.getDefaultInstance(props);
-
+        body = body.replace("\\n", "\n");
         Message msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress((from)));
+        if (to.contains(";"))
+        {
+            for (int i=0;i<to.split(";").length;i++)
+            {
+                msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to.split(";")[i]));
+            }
+        }
+        else
+        {
         msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        }
         //msg.addRecipient(Message.RecipientType.TO, new InternetAddress("msg_vertrieb@msgmediaservice.de"));
-        
+        System.out.println(body);
         msg.setSubject(subject);
         msg.setText(body);
         msg.saveChanges();
